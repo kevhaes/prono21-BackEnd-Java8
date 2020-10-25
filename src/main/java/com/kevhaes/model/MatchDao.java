@@ -44,7 +44,7 @@ public class MatchDao {
 	private int status;
 
 	@OneToMany
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "match_id")
 	List<BetDao> bets;
 
 	/////////////// CONSTRUCTORS ///////////////
@@ -186,9 +186,9 @@ public class MatchDao {
 	/////////////// TOSTRING ///////////////
 	@Override
 	public String toString() {
-		return "MatchDao [id=" + id + ", hometeam=" + hometeam + ", awayteam=" + awayteam + ", hometeamscore="
-				+ hometeamscore + ", awayteamscore=" + awayteamscore + ", matchdate=" + matchdate + ", status=" + status
-				+ ", bets= [jsonIgnored]" + "]";
+		return "\nMatchDao\n [id=" + id + ",\n hometeam=" + hometeam + ", \nawayteam=" + awayteam + ", \nhometeamscore="
+				+ hometeamscore + ", \nawayteamscore=" + awayteamscore + ", \nmatchdate=" + matchdate + ", \nstatus="
+				+ status + ", \nbets= [ignore]";
 	}
 
 	/////////////// METHODS ///////////////

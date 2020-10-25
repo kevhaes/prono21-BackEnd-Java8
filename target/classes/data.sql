@@ -12,20 +12,20 @@ INSERT INTO user (id, username, firstname, lastname, password, role, is_active ,
                 
 INSERT INTO  `team` (name, flagimage, description, status) VALUES 
 ( 'Indonesia','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor.', 1),
-( 'Russia','http://dummyimage.com/20x20.jpg/ff4444/ffffff', 	 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae, Mauris viverra diam vitae quam. Suspendisse potenti.', 2),
+( 'Denmark','http://dummyimage.com/20x20.jpg/ff4444/ffffff', 	 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae, Mauris viverra diam vitae quam. Suspendisse potenti.', 2),
 ('Russia','http://dummyimage.com/20x20.jpg/ff4444/ffffff', 	 'Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 0),
-( 'Indonesia','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Proin at turpis a pede posuere nonummy. Integer non velit.', 2),
+( 'Germany','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Proin at turpis a pede posuere nonummy. Integer non velit.', 2),
 ( 'Sweden','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Donec posuere metus vitae ipsum. Aliquam non mauris.', 2),
 ( 'Brazil','http://dummyimage.com/20x20.jpg/dddddd/000000', 	 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 1),
-( 'Morocco','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae, Mauris viverra diam vitae quam. Suspendisse potenti.', 1),
-( 'China','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.', 0),
-( 	'China','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff',  'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 2),
+( 'France','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae, Mauris viverra diam vitae quam. Suspendisse potenti.', 1),
+( 'Belgium','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.', 0),
+( 	'Spain','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff',  'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 2),
 ('Ecuador', 'http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Sed accumsan felis. Ut at dolor quis odio consequat varius.', 1),
-( 	'Russia', 'http://dummyimage.com/20x20.jpg/cc0000/ffffff', 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo.', 0),
+( 	'Italy', 'http://dummyimage.com/20x20.jpg/cc0000/ffffff', 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo.', 0),
 ( 	'France','http://dummyimage.com/20x20.jpg/ff4444/ffffff',  'Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum.', 2),
 ( 	'Czech Republic','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff',  'Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 2),
 ( 'China', 'http://dummyimage.com/20x20.jpg/cc0000/ffffff', 	'Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', 2),
-( 	'Indonesia', 'http://dummyimage.com/20x20.jpg/cc0000/ffffff', 'Maecenas pulvinar lobortis est. Phasellus sit amet erat.', 2),
+( 	'England', 'http://dummyimage.com/20x20.jpg/cc0000/ffffff', 'Maecenas pulvinar lobortis est. Phasellus sit amet erat.', 2),
 ( 'Indonesia','http://dummyimage.com/20x20.jpg/5fa2dd/ffffff', 	 'Etiam vel augue. Vestibulum rutrum rutrum neque.', 2),
 ( 'China','http://dummyimage.com/20x20.jpg/cc0000/ffffff', 	 'Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 0),
 ( 	'Peru','http://dummyimage.com/20x20.jpg/dddddd/000000',  'Morbi a ipsum. Integer a nibh.', 1),
@@ -40,4 +40,7 @@ INSERT INTO  `match` (hometeam, awayteam, hometeamscore, awayteamscore, matchdat
 
 
 INSERT INTO `bet` (user_id, match_id, homeTeamBet, awayTeamBet, obtainedpoints) VALUES
-(4, 1, 2, 3, 0);       
+(4, 1, 2, 3, 0);   
+
+INSERT INTO `userStats` (place, points, user_id ) VALUES
+(4, 1, 2);           

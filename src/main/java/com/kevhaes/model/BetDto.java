@@ -15,15 +15,14 @@ public class BetDto {
 	private Long match_id;
 	private int hometeambet;
 	private int awayteambet;
-	// private int obtainedpoints;
 
 	/////////////// CONSTRUCTORS ///////////////
-	public BetDto(String user_id, Long match_id, int homeTeamBet, int awayTeamBet) {
+	public BetDto(String user_id, Long match_id, int hometeambet, int awayteambet) {
 		super();
 		this.user_id = user_id;
 		this.match_id = match_id;
-		this.hometeambet = homeTeamBet;
-		this.awayteambet = awayTeamBet;
+		this.hometeambet = hometeambet;
+		this.awayteambet = awayteambet;
 	}
 
 	public BetDto() {
@@ -91,8 +90,8 @@ public class BetDto {
 	/////////////// TOSTRING ///////////////
 	@Override
 	public String toString() {
-		return "BetDto [user_id=" + user_id + ", match_id=" + match_id + ", homeTeamBet=" + hometeambet
-				+ ", awayTeamBet=" + awayteambet + "]";
+		return "BetDto [user_id=" + user_id + ", match_id=" + match_id + ", hometeambet=" + hometeambet
+				+ ", awayteambet=" + awayteambet + "]";
 	}
 
 	/////////////// METHODS ///////////////

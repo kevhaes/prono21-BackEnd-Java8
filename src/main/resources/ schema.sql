@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS `bet`;
 DROP TABLE IF EXISTS `team`;
 DROP TABLE IF EXISTS `match`;
 DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `userStats`;
 
 
 CREATE TABLE `user` (
@@ -16,6 +17,8 @@ CREATE TABLE `user` (
 `totalscore` int(11) DEFAULT 0,  
 `description` varchar(250) DEFAULT NULL,
 `imageurl` varchar(255) DEFAULT NULL,
+`userstats_id` int(11) DEFAULT NULL,
+FOREIGN KEY (`userstats_id`) REFERENCES `userstats` (`id`),
 PRIMARY KEY (`id`) 
 );
 
@@ -55,3 +58,22 @@ FOREIGN KEY (`match_id`) REFERENCES `match` (`id`),
 PRIMARY KEY (`id`)  
 );
 
+
+CREATE TABLE `userStats` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) NOT NULL,
+`place` int(11) DEFAULT 0, 
+`points` int(11) DEFAULT 0, 
+FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+PRIMARY KEY (`id`) 
+);
+
+CREATE TABLE `user_userstats` (
+`id` int(11) NOT NULL auto_increment,
+`user_id` int(11) NOT NULL,
+`userstats_id` int(11) NOT NULL,
+
+FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+FOREIGN KEY (`userstats_id`) REFERENCES `user` (`id`),
+PRIMARY KEY (`id`) 
+);

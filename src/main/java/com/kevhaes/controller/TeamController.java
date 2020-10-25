@@ -29,7 +29,7 @@ public class TeamController {
 
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)
 	public List<TeamDao> findAllTeams() {
-		System.out.println("GETTEAMS REQUEST received");
+		// System.out.println("GETTEAMS REQUEST received");
 		return teamService.findAllTeams();
 	}
 

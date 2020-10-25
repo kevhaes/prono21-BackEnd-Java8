@@ -32,7 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	}
 
 	public UserDao save(UserDto user) {
-		System.out.println("jwtUserDetails received save request for :" + user);
+		// System.out.println("jwtUserDetails received save request for :" + user);
 		UserDao newUser = new UserDao();
 		newUser.setUsername(user.getUsername());
 		newUser.setFirstname(user.getFirstname());
@@ -41,7 +41,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newUser.setRole(user.getRole());
 		newUser.setIsActive(user.getIsActive());
 		newUser.setImageurl(user.getImageurl());
-		System.out.println("Sending NewUser to save in userRespos: " + newUser);
+		// System.out.println("Sending NewUser to save in userRespos: " + newUser);
 		return userRepository.save(newUser);
 	}
 }

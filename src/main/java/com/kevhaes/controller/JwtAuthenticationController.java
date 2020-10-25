@@ -47,7 +47,7 @@ public class JwtAuthenticationController {
 	// register a new user
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
-		System.out.println("Controller REGISTERING USER: " + user);
+		// System.out.println("Controller REGISTERING USER: " + user);
 
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}

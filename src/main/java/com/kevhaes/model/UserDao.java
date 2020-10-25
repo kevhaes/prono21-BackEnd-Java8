@@ -2,13 +2,16 @@ package com.kevhaes.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -40,8 +43,8 @@ public class UserDao {
 	@Column
 	private Boolean isActive;
 
-	@Column
-	private int totalscore;
+//	@Column
+//	private int totalscore;
 
 	@Column
 	private String description;
@@ -63,6 +66,12 @@ public class UserDao {
 	@OneToMany
 	@JoinColumn(name = "id")
 	private List<BetDao> bets;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_userstats", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "userstats_id", referencedColumnName = "id") })
+	private UserStats userStats;
 
 	// getters setter
 
@@ -165,20 +174,6 @@ public class UserDao {
 	}
 
 	/**
-	 * @return the totalscore
-	 */
-	public int getTotalscore() {
-		return totalscore;
-	}
-
-	/**
-	 * @param totalscore the totalscore to set
-	 */
-	public void setTotalscore(int totalscore) {
-		this.totalscore = totalscore;
-	}
-
-	/**
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -221,12 +216,26 @@ public class UserDao {
 		this.bets = bets;
 	}
 
+	/**
+	 * @return the userStats
+	 */
+	public UserStats getUserStats() {
+		return userStats;
+	}
+
+	/**
+	 * @param userStats the userStats to set
+	 */
+	public void setUserStats(UserStats userStats) {
+		this.userStats = userStats;
+	}
+
 	// to string
 	@Override
 	public String toString() {
-		return "UserDao [id=" + id + ", username=" + username + ", firstname=" + firstname + ", Lastname=" + lastname
-				+ ", password=" + password + ", role=" + role + ", isActive=" + isActive + ", totalscore=" + totalscore
-				+ ", description=" + description + ", imageurl=" + imageurl + ", bets=[jsonIgnored]" + "]";
+		return "UserDao [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", password=" + password + ", role=" + role + ", isActive=" + isActive + ", description="
+				+ description + ", imageurl=" + imageurl + ", bets=" + bets + ", userStats=" + userStats + "]";
 	}
 
 }

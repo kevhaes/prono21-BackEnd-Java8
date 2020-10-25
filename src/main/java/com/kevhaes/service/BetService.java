@@ -4,6 +4,7 @@
  */
 package com.kevhaes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,16 +39,15 @@ public class BetService {
 		UserDao user = userRepository.findByUsername(bet.getUser_id());
 
 		BetDao newBetDao = new BetDao();
-		System.out.println("createBet : found MatchDao match in createBet : " + match);
 		newBetDao.setMatch(match);
 		newBetDao.setUser(user);
 		newBetDao.setHometeambet(bet.getHomeTeamBet());
 		newBetDao.setAwayteambet(bet.getAwayTeamBet());
-		System.out.println("createBet : newBet in createBet :" + newBetDao);
 
 		return betRepository.save(newBetDao);
 	}
 
+	/// methods
 	public boolean matchHasBets(MatchDao match) {
 		boolean response = false;
 		if (match.getBets().size() > 0) {
@@ -64,24 +64,19 @@ public class BetService {
 		return response;
 	}
 
-	public static int calculateObtainedPoints(int homeScore, int awayScore, int homeBet, int awayBet) {
-		int obtainedpoints = 0;
-		// guest exact result
-		if (homeScore == homeBet && awayScore == awayBet) {
-			obtainedpoints = 5;
-			// guest 1 x exact goals of 1 team
-		} else if (homeScore == homeBet || awayScore == awayBet) {
-			obtainedpoints = 3;
-			// guest the winner
-		} else if ((homeScore > awayScore && homeBet < awayBet) || (homeScore > awayScore && homeBet > awayBet)
-				|| (homeScore == awayScore && homeBet == awayBet)) {
-			obtainedpoints = 2;
-		}
-		return obtainedpoints;
+	public List<BetDao> showAllBets() {
+		return betRepository.findAll();
 	}
 
-	public List<BetDao> showAllBets() {
+	public List<BetDao> showAllBetsForMatchById(Long matchId) {
+		List<BetDao> allBets = betRepository.findAll();
+		List<BetDao> allBetsForThisMatch = new ArrayList<>();
 
-		return betRepository.findAll();
+		for (BetDao betDao : allBets) {
+			if (betDao.getMatch().getId().equals(matchId)) {
+				allBetsForThisMatch.add(betDao);
+			}
+		}
+		return allBetsForThisMatch;
 	}
 }

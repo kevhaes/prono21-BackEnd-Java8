@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kevhaes.model.MatchDao;
@@ -33,26 +34,28 @@ public class MatchController {
 
 	@RequestMapping(value = "/matches", method = RequestMethod.GET)
 	public List<MatchDao> findAllMatches() {
-		System.out.println("GET REQUEST MATCHES RECEIVED");
 		return matchService.findAllMatches();
 	}
 
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public MatchDao createMatch(@RequestBody MatchDto match) {
-		System.out.println("Create Match REQUEST RECEIVED" + match);
 		return matchService.createMatch(match);
 	}
 
-	@RequestMapping(value = "/matches/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/matches/bets/{username}", method = RequestMethod.GET)
 	public ArrayList<MatchDto> getMatchesForUser(@PathVariable String username) {
-		System.out.println("GET REQUEST getMatchesForUser RECEIVED for " + username);
 		return matchService.getMatchesForUser(username);
 	}
 
-	@RequestMapping(value = "/matches/{matchId}", method = RequestMethod.PUT)
-	public void closeMatch(@PathVariable Long matchId) {
-		System.out.println("close match request for" + matchId);
-		matchService.closeMatch(matchId);
+	@RequestMapping(value = "/matches/{matchId}", method = RequestMethod.GET)
+	public MatchDao showMatchDetails(@PathVariable Long matchId) {
+		return matchService.getMatchById(matchId);
+	}
+
+	@RequestMapping(value = "/matches/", method = RequestMethod.PUT)
+	public void modifyMatch(@RequestParam("id") String id, @RequestParam("hometeamscore") String hometeamscore,
+			@RequestParam("awayteamscore") String awayteamscore) {
+		matchService.modifyMatch(id, hometeamscore, awayteamscore);
 	}
 
 }

@@ -33,11 +33,11 @@ public class BetDao {
 	private int hometeambet;
 	@Column
 	private int awayteambet;
-	@Column
+	@Column(name = "`obtainedpoints`")
 	private int obtainedpoints;
 
 	@ManyToOne
-	@JoinColumn(name = "match_id")
+	@JoinColumn(name = "match_id", referencedColumnName = "id")
 	private MatchDao match;
 
 	/////////////// CONSTRUCTORS ///////////////
@@ -85,6 +85,21 @@ public class BetDao {
 	}
 
 	/**
+	 * @return the match
+	 */
+	// @JsonIgnore
+	public MatchDao getMatch() {
+		return match;
+	}
+
+	/**
+	 * @param match the match to set
+	 */
+	public void setMatch(MatchDao match) {
+		this.match = match;
+	}
+
+	/**
 	 * @return the hometeambet
 	 */
 	public int getHometeambet() {
@@ -124,20 +139,6 @@ public class BetDao {
 	 */
 	public void setObtainedpoints(int obtainedpoints) {
 		this.obtainedpoints = obtainedpoints;
-	}
-
-	/**
-	 * @return the match
-	 */
-	public MatchDao getMatch() {
-		return match;
-	}
-
-	/**
-	 * @param match the match to set
-	 */
-	public void setMatch(MatchDao match) {
-		this.match = match;
 	}
 
 	/////////////// TOSTRING ///////////////

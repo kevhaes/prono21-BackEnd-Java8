@@ -15,6 +15,7 @@ import com.kevhaes.model.BetDao;
 import com.kevhaes.model.MatchDao;
 import com.kevhaes.model.MatchDto;
 import com.kevhaes.model.TeamDao;
+import com.kevhaes.repository.BetRepository;
 import com.kevhaes.repository.MatchRepository;
 import com.kevhaes.repository.TeamRepository;
 
@@ -29,6 +30,12 @@ public class MatchService {
 	@Autowired
 	private TeamRepository teamRepository;
 
+	@Autowired
+	private BetRepository betRepository;
+
+//	@Autowired
+//	private UserStatsService userStatsService;
+
 	public List<MatchDao> findAllMatches() {
 		List<MatchDao> foundMatches = (List<MatchDao>) matchRepository.findAll();
 		return foundMatches;
@@ -37,7 +44,7 @@ public class MatchService {
 	public MatchDao createMatch(MatchDto match) {
 		MatchDao newMatch = new MatchDao();
 		TeamDao homeTeam = teamRepository.findByName(match.getHometeam().getName());
-		System.out.println("hometeam:" + homeTeam);
+		// System.out.println("hometeam:" + homeTeam);
 		TeamDao awayTeam = teamRepository.findByName(match.getAwayteam().getName());
 		newMatch.setHometeam(homeTeam);
 		newMatch.setAwayteam(awayTeam);
@@ -48,13 +55,10 @@ public class MatchService {
 	}
 
 	public ArrayList<MatchDto> getMatchesForUser(String username) {
-		// ArrayList<MatchDto> allMatchesForUser = convertAllDaoMatchesToDto();
 		ArrayList<MatchDto> returnMatches = new ArrayList<>();
-
-		for (MatchDao matchDao : matchRepository.findAll()) {
-			// look for bets of user
+		List<MatchDao> allDaoMatches = matchRepository.findAll();
+		for (MatchDao matchDao : allDaoMatches) {
 			MatchDto matchDto = new MatchDto();
-
 			matchDto.setId(matchDao.getId());
 			matchDto.setMatchdate(matchDao.getMatchdate());
 			matchDto.setHometeam(matchDao.getHometeam());
@@ -62,26 +66,20 @@ public class MatchService {
 			matchDto.setAwayteamscore(matchDao.getAwayteamscore());
 			matchDto.setHometeamscore(matchDao.getHometeamscore());
 			matchDto.setStatus(matchDao.getStatus());
-			if (!matchDao.getBets().isEmpty()) {
-				for (BetDao bet : matchDao.getBets()) {
-					if (username != null && bet.getUser().getUsername().equals(username)) {
+
+			List<BetDao> allBetDaosOfMatch = matchDao.getBets();
+			if (!allBetDaosOfMatch.isEmpty()) {
+				for (BetDao bet : allBetDaosOfMatch) {
+					if (bet.getUser().getUsername().equals(username)) {
 						matchDto.setHasBet(true);
 						matchDto.setHomeBet(bet.getHometeambet());
 						matchDto.setAwayBet(bet.getAwayteambet());
-						System.out.println("MATCHSERVICE getMatchesForUser added TRUE matchDto" + matchDto);
-						returnMatches.add(matchDto);
-					} else {
-						System.out.println(
-								"MATCHSERVICE getMatchesForUser added FALSE (not this userBet)matchDto" + matchDto);
-						returnMatches.add(matchDto);
+						matchDto.setObtainedpoints(bet.getObtainedpoints());
 					}
 				}
-			} else {
-				System.out.println("MATCHSERVICE getMatchesForUser added FALSE  (bets are empty) matchDto" + matchDto);
-				returnMatches.add(matchDto);
 			}
+			returnMatches.add(matchDto);
 		}
-		System.out.println("all returned matches:" + returnMatches);
 		return returnMatches;
 	}
 
@@ -97,24 +95,54 @@ public class MatchService {
 		return resultArray;
 	}
 
-	// close match + adding obtained points to every bet //
-	public void closeMatch(Long MatchId) {
-		MatchDao match = matchRepository.findById(MatchId).get();
-		int matchHomeScore = match.getHometeamscore();
-		int matchAwayScore = match.getAwayteamscore();
+	// admin changes score
+	public void modifyMatch(String id, String hometeamscore, String awayteamscore) {
+		Long longId = Long.parseLong(id);
+		MatchDao matchToModify = matchRepository.findById(longId).get();
+		int intHometeamscore = Integer.parseInt(hometeamscore);
+		int intAwayteamscore = Integer.parseInt(awayteamscore);
 
-		// set for every bet obtained points
-		if (!match.getBets().isEmpty()) {
-			for (BetDao bet : match.getBets()) {
-				int obtainedPoints = BetService.calculateObtainedPoints(matchHomeScore, matchAwayScore,
-						bet.getHometeambet(), bet.getAwayteambet());
-				bet.setObtainedpoints(obtainedPoints);
+		// modify score in match
+		matchToModify.setHometeamscore(intHometeamscore);
+		matchToModify.setAwayteamscore(intAwayteamscore);
+		matchRepository.save(matchToModify);
+
+		// modify obtained points for bets
+		if (!matchToModify.getBets().isEmpty()) {
+			for (BetDao bet : matchToModify.getBets()) {
+				try {
+					BetDao betDao = betRepository.findById(bet.getId()).get();
+					// System.out.println("found betDao: " + betDao);
+					int newObtainedpoints = calculateObtainedPoints(intHometeamscore, intAwayteamscore,
+							bet.getHometeambet(), bet.getAwayteambet());
+					betDao.setObtainedpoints(newObtainedpoints);
+					betRepository.save(betDao);
+					// System.out.println("changed betDao" + betDao);
+				} catch (Exception e) {
+					System.out.println("no bet");
+				}
 			}
 		}
 
-		// close match
-		match.setStatus(3);
-
 	}
 
+	public static int calculateObtainedPoints(int homeScore, int awayScore, int homeBet, int awayBet) {
+		int obtainedpoints = 0;
+		// guest exact result
+		if (homeScore == homeBet && awayScore == awayBet) {
+			obtainedpoints = 5;
+			// guest 1 x exact goals of 1 team
+		} else if (homeScore == homeBet || awayScore == awayBet) {
+			obtainedpoints = 3;
+			// guest the winner
+		} else if ((homeScore > awayScore && homeBet < awayBet) || (homeScore > awayScore && homeBet > awayBet)
+				|| (homeScore == awayScore && homeBet == awayBet)) {
+			obtainedpoints = 2;
+		}
+		return obtainedpoints;
+	}
+
+	public MatchDao getMatchById(Long matchId) {
+		return matchRepository.findById(matchId).get();
+	}
 }

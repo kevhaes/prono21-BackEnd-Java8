@@ -8,10 +8,13 @@ public class UserDto {
 	private String role;
 	private Boolean isActive;
 	private String imageurl;
+	private int place;
+	private int points;
+	private Long id;
 
 	// constructors
 	public UserDto(String username, String firstname, String lastname, String password, String role, Boolean isActive,
-			String imageurl) {
+			String imageurl, int place, int points, Long id) {
 		super();
 		this.username = username;
 		this.firstname = firstname;
@@ -20,6 +23,9 @@ public class UserDto {
 		this.role = role;
 		this.isActive = isActive;
 		this.imageurl = imageurl;
+		this.place = place;
+		this.points = points;
+		this.id = id;
 	}
 
 	public UserDto() {
@@ -108,11 +114,54 @@ public class UserDto {
 		this.imageurl = imageurl;
 	}
 
+	/**
+	 * @return the place
+	 */
+	public int getPlace() {
+		return place;
+	}
+
+	/**
+	 * @param place the place to set
+	 */
+	public void setPlace(int place) {
+		this.place = place;
+	}
+
+	/**
+	 * @return the points
+	 */
+	public int getPoints() {
+		return points;
+	}
+
+	/**
+	 * @param points the points to set
+	 */
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	// to string
 	@Override
 	public String toString() {
 		return "UserDto [username=" + username + ", firstname=" + firstname + ", lastname=" + lastname + ", password="
-				+ password + ", role=" + role + ", isActive=" + isActive + ", imageurl=" + imageurl + "]";
+				+ password + ", role=" + role + ", isActive=" + isActive + ", imageurl=" + imageurl + ", place=" + place
+				+ ", points=" + points + ", id=" + id + "]";
 	}
 
 }
