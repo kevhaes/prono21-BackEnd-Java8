@@ -77,3 +77,15 @@ FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
 FOREIGN KEY (`userstats_id`) REFERENCES `user` (`id`),
 PRIMARY KEY (`id`) 
 );
+
+
+create TABLE `comment` (
+`id` int(11) NOT NULL auto_increment,
+`description` TEXT,
+`author_id` int(11) NOT NULL,
+`post_id` int(11) NOT NULL,
+`published_on` DATETIME(6),
+FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),
+FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+PRIMARY KEY (`id`) 
+);

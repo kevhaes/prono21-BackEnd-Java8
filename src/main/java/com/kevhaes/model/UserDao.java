@@ -73,6 +73,14 @@ public class UserDao {
 					@JoinColumn(name = "userstats_id", referencedColumnName = "id") })
 	private UserStats userStats;
 
+	@OneToMany
+	@JoinColumn(name = "id")
+	private List<PostDao> posts;
+
+	@OneToMany
+	@JoinColumn(name = "id")
+	private List<CommentDao> comments;
+
 	// getters setter
 
 	/**
@@ -230,12 +238,43 @@ public class UserDao {
 		this.userStats = userStats;
 	}
 
+	/**
+	 * @return the posts
+	 */
+	@JsonIgnore
+	public List<PostDao> getPosts() {
+		return posts;
+	}
+
+	/**
+	 * @param posts the posts to set
+	 */
+	public void setPosts(List<PostDao> posts) {
+		this.posts = posts;
+	}
+
+	/**
+	 * @return the comments
+	 */
+	@JsonIgnore
+	public List<CommentDao> getComments() {
+		return comments;
+	}
+
+	/**
+	 * @param comments the comments to set
+	 */
+	public void setComments(List<CommentDao> comments) {
+		this.comments = comments;
+	}
+
 	// to string
 	@Override
 	public String toString() {
 		return "UserDao [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", password=" + password + ", role=" + role + ", isActive=" + isActive + ", description="
-				+ description + ", imageurl=" + imageurl + ", bets=" + bets + ", userStats=" + userStats + "]";
+				+ description + ", imageurl=" + imageurl + ", bets= [ignored]" + ", userStats=" + userStats + ", posts="
+				+ "[ignored]" + "]";
 	}
 
 }
